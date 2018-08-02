@@ -81,6 +81,12 @@ define docker::stack(
       path     => $exec_path,
       provider => $provider,
     }
+    exec { "docker stack update ${stack_name}":
+      refresh => $exec_stack,
+      onlyif  => $unless_stack,
+      refreshonly => true,
+      path    => ['/bin', '/usr/bin'],
+    }
   }
 
   if $ensure == 'absent'{
